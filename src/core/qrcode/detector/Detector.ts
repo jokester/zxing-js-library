@@ -30,7 +30,7 @@ import Version from '../decoder/Version';
 import AlignmentPattern from './AlignmentPattern';
 import AlignmentPatternFinder from './AlignmentPatternFinder';
 import FinderPattern from './FinderPattern';
-import FinderPatternFinder from './FinderPatternFinder';
+import FinderPatternFinder, { MultipleFinderPatternFinder } from './FinderPatternFinder';
 import FinderPatternInfo from './FinderPatternInfo';
 
 
@@ -81,9 +81,20 @@ export default class Detector {
         /*(ResultPointCallback) */hints.get(DecodeHintType.NEED_RESULT_POINT_CALLBACK);
 
     const finder = new FinderPatternFinder(this.image, this.resultPointCallback);
-    const info = finder.find(hints);
+    const info: FinderPatternInfo = finder.find(hints);
 
     return this.processFinderPatternInfo(info);
+  }
+
+  public detectMultiple(hints: Map<DecodeHintType, any>): DetectorResult[] {
+    this.resultPointCallback = (hints === null || hints === undefined) ? null :
+      /*(ResultPointCallback) */hints.get(DecodeHintType.NEED_RESULT_POINT_CALLBACK);
+
+    const finder = new MultipleFinderPatternFinder(this.image, this.resultPointCallback);
+    const found = finder.findMultiple(hints);
+
+    return found.map( _ => this.processFinderPatternInfo(_));
+
   }
 
   protected processFinderPatternInfo(info: FinderPatternInfo): DetectorResult {

@@ -63,10 +63,16 @@ export default class BitArray /*implements Cloneable*/ {
     }
   }
 
+  /**
+   * @return size in BITS
+   */
   public getSize(): number /*int*/ {
     return this.size;
   }
 
+  /**
+   * @return size in BYTES
+   */
   public getSizeInBytes(): number /*int*/ {
     return Math.floor((this.size + 7) / 8);
   }

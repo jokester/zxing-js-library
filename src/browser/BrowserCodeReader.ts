@@ -892,6 +892,7 @@ export class BrowserCodeReader {
   }
 
   /**
+   * @todo
    * Call the encapsulated readers decode
    */
   public decodeBitmap(binaryBitmap: BinaryBitmap): Result {

@@ -50,7 +50,7 @@ abstract class Binarizer {
      * @return The array of bits for this row (true means black).
      * @throws NotFoundException if row can't be binarized
      */
-    public abstract getBlackRow(y: number/*iny*/, row: BitArray): BitArray; /*throws NotFoundException*/
+    public abstract getBlackRow(y: number/*int*/, row: BitArray): BitArray; /*throws NotFoundException*/
 
     /**
      * Converts a 2D array of luminance data to 1 bit data. As above, assume this method is expensive

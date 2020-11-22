@@ -26,6 +26,7 @@ import FinderPatternInfo from './FinderPatternInfo';
 import NotFoundException from '../../NotFoundException';
 
 import { float } from '../../../customTypings';
+import { DetectorResult } from '../../../index';
 
 /*import java.io.Serializable;*/
 /*import java.util.ArrayList;*/
@@ -169,6 +170,7 @@ export default class FinderPatternFinder {
                 }
             }
             if (FinderPatternFinder.foundPatternCross(stateCount)) {
+              // in last throw
                 const confirmed: boolean = this.handlePossibleCenter(stateCount, i, maxJ, pureBarcode);
                 if (confirmed === true) {
                     iSkip = stateCount[0];
@@ -669,4 +671,28 @@ export default class FinderPatternFinder {
             possibleCenters[2]
         ];
     }
+}
+
+export class MultipleFinderPatternFinder extends  FinderPatternFinder {
+
+  public findMultiple(hints: Map<DecodeHintType, any>): FinderPatternInfo[] /*throws NotFoundException */ {
+    try {
+      /**
+       * let this.find() run over all pixels
+       */
+      // @ts-ignore
+      this.haveMultiplyConfirmedCenters = () => false;
+      const found: FinderPatternInfo[] = [];
+
+      // ignore result, but use this.
+      this.find(hints)
+
+      return found;
+    } finally {
+      // @ts-ignore
+      delete this.haveMultiplyConfirmedCenters ;
+
+    }
+  }
+
 }

@@ -51,7 +51,7 @@ export default class QRCodeReader implements Reader {
   }
 
   /**
-   * Locates and decodes a QR code in an image.
+   * Locates and decodes {@em a} QR code in an image.
    *
    * @return a representing: string the content encoded by the QR code
    * @throws NotFoundException if a QR code cannot be found
@@ -68,10 +68,12 @@ export default class QRCodeReader implements Reader {
     let decoderResult: DecoderResult;
     let points: Array<ResultPoint>;
     if (hints !== undefined && hints !== null && undefined !== hints.get(DecodeHintType.PURE_BARCODE)) {
+      // PURE_BARCODE specified
       const bits = QRCodeReader.extractPureBits(image.getBlackMatrix());
       decoderResult = this.decoder.decodeBitMatrix(bits, hints);
       points = QRCodeReader.NO_POINTS;
     } else {
+      // PURE_BARCODE not specified
       const detectorResult = new Detector(image.getBlackMatrix()).detect(hints);
       decoderResult = this.decoder.decodeBitMatrix(detectorResult.getBits(), hints);
       points = detectorResult.getPoints();
